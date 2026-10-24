@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Package visibility (Android 11+): needed to read versions of these packages -->
+    <queries>
+        <package android:name="com.android.vending" />
+        <package android:name="com.sec.android.app.samsungapps" />
+        <package android:name="com.google.android.gms" />
+        <package android:name="com.google.android.modulemetadata" />
+        <package android:name="com.wssyncmldm" />
+        <package android:name="com.samsung.android.app.watchmanager" />
+        <package android:name="com.google.android.as.oss" />
+        <package android:name="com.google.android.webview" />
+        <package android:name="com.google.android.tts" />
+        <package android:name="com.google.android.ims" />
+        <package android:name="com.google.android.safetycore" />
+        <package android:name="com.google.android.contactkeys" />
+        <package android:name="com.google.ar.core" />
+        <package android:name="com.google.android.projection.gearhead" />
+    </queries>
+
+    <application
+        android:label="Update-Zentrale"
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@android:style/Theme.DeviceDefault.DayNight"
+        android:allowBackup="false">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
