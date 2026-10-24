@@ -33,6 +33,8 @@ class MainActivity : Activity() {
         const val PKG_GMS = "com.google.android.gms"
         const val PKG_MAINLINE = "com.google.android.modulemetadata"
         const val PKG_WEARABLE = "com.samsung.android.app.watchmanager"
+        const val AUTHOR = "Dirk"
+        const val REPO_URL = "https://github.com/dirkp136/UpdateZentrale"
         const val PATCH_WARN_DAYS = 60L
         val PLAY_KEYWORDS = listOf("update", "aktualis", "myapps", "my_apps", "my apps", "meine apps", "manage", "verwalten")
         val GALAXY_KEYWORDS = listOf("update", "aktualis")
@@ -203,6 +205,14 @@ class MainActivity : Activity() {
         })
         titles.addView(ui.text("${deviceName()} · Stand ${LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))} Uhr", 14f, ui.p.muted))
         row.addView(ui.weighted(titles))
+        row.addView(ImageView(this).apply {
+            setImageResource(R.drawable.ic_info)
+            imageTintList = android.content.res.ColorStateList.valueOf(ui.p.muted)
+            contentDescription = "Info"
+            setPadding(ui.dp(8), ui.dp(8), ui.dp(8), ui.dp(8))
+            layoutParams = LinearLayout.LayoutParams(ui.dp(40), ui.dp(40))
+            ui.clickable(this, ui.p.bg, 100) { showInfo() }
+        })
         content.addView(row)
 
         val patch = patchAge()
@@ -335,6 +345,47 @@ class MainActivity : Activity() {
             }
         }
         Toast.makeText(this, "Konnte nicht geöffnet werden", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showInfo() {
+        val box = ui.vertical().apply {
+            gravity = android.view.Gravity.CENTER_HORIZONTAL
+            setPadding(ui.dp(24), ui.dp(24), ui.dp(24), ui.dp(8))
+        }
+        box.addView(ImageView(this).apply {
+            setImageResource(R.mipmap.ic_launcher)
+            layoutParams = LinearLayout.LayoutParams(ui.dp(72), ui.dp(72))
+            outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(view: View, outline: Outline) =
+                    outline.setRoundRect(0, 0, view.width, view.height, view.width * 0.3f)
+            }
+            clipToOutline = true
+        })
+        box.addView(ui.text("Update-Zentrale", 22f, bold = true).apply { setPadding(0, ui.dp(12), 0, 0) })
+        box.addView(ui.text("Version ${BuildConfig.VERSION_NAME} · ${BuildConfig.BUILD_DATE}", 14f, ui.p.muted))
+        box.addView(ui.text(
+            "Zeigt an einer Stelle, wo Updates anstehen – Apps, Google-System, Wearables und Gerät – und springt direkt dorthin.",
+            14f
+        ).apply {
+            gravity = android.view.Gravity.CENTER
+            setPadding(0, ui.dp(16), 0, 0)
+        })
+        box.addView(ui.divider().apply {
+            (layoutParams as LinearLayout.LayoutParams).setMargins(0, ui.dp(16), 0, ui.dp(16))
+        })
+        box.addView(ui.text("Entwickelt von", 13f, ui.p.muted))
+        box.addView(ui.text(AUTHOR, 16f, bold = true))
+        box.addView(ui.text(REPO_URL.removePrefix("https://"), 14f, ui.p.accent).apply {
+            setPadding(0, ui.dp(8), 0, ui.dp(4))
+            setOnClickListener { open(Intent(Intent.ACTION_VIEW, Uri.parse(REPO_URL))) }
+        })
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(box)
+            .setPositiveButton("Schließen", null)
+            .create()
+        dialog.window?.setBackgroundDrawable(ui.rounded(ui.p.surface, 28))
+        dialog.show()
     }
 
     /** Lists all store shortcuts found, for troubleshooting. */
