@@ -14,8 +14,8 @@ android {
         applicationId = "de.dirk.updatezentrale"
         minSdk = 29
         targetSdk = 35
-        versionCode = 12
-        versionName = "2.0"
+        versionCode = 13
+        versionName = "2.1"
         // Build date shown in the info dialog
         buildConfigField("String", "BUILD_DATE",
             "\"" + LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\"")
